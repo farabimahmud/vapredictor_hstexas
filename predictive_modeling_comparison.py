@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.impute import SimpleImputer
 from sklearn.metrics import (roc_curve, auc, roc_auc_score, classification_report, 
                            confusion_matrix, precision_recall_curve, average_precision_score)
 import xgboost as xgb
@@ -18,7 +16,7 @@ class VapingPredictiveModeling:
     Comprehensive predictive modeling for vaping behavior using multiple classifiers.
     """
     
-    def __init__(self, data_path="data/hstexas_full.csv"):
+    def __init__(self, data_path="hstexas.csv"):
         self.data_path = data_path
         self.df = None
         self.X_train = None
@@ -27,6 +25,110 @@ class VapingPredictiveModeling:
         self.y_test = None
         self.models = {}
         self.results = {}
+        self.variable_names = self._create_variable_mapping()
+        
+    def _create_variable_mapping(self):
+        """Create mapping from variable codes to descriptive names."""
+        return {
+            # Demographics
+            'age': 'Age',
+            'sex': 'Sex',
+            'grade': 'Grade Level',
+            'race4': 'Race/Ethnicity',
+            'race7': 'Race/Ethnicity (Detailed)',
+            'bmipct': 'BMI Percentile',
+            'stheight': 'Self-Reported Height',
+            'stweight': 'Self-Reported Weight',
+            'bmi': 'Body Mass Index',
+            'sexpart': 'Sexual Partners',
+            'sexpart2': 'Sexual Partners (Detailed)',
+            'q8': 'Wear Seatbelt',
+            'q9': 'Ride a Car',
+            'q10': 'Drive a Car',
+            'q11': 'Text While Driving',
+            'q12': 'Carry a Weapon',
+            'q13': 'Carry a Gun',
+             'q14': 'Absence from School',
+            'q15': 'Threatened of Injury',
+            'q16': 'Physical Fight',
+            'q17': 'Physical Fight at School',
+            'q18': 'Witness Crime in Neighborhood',
+            
+            'q19': 'Physically Forced Sex',
+            'q20': 'Forced Sexual Act',
+            'q21': 'Date of Forced Sex',
+            'q22': 'Date of Physical Assault',
+            'q23': 'Racially Abused',
+            'q24': 'Bullied at School',
+            'q25': 'Bullied Online',
+            
+            'q26': 'Sad or Hopeless',
+            'q27': 'Suicidal Thoughts',
+            'q28': 'Plan for Suicide',
+            'q29': 'Attempted Suicide',
+            'q30': 'Injured while Attempting Suicide',
+
+            'q31': 'Cigarette Use',
+            'q32': 'Age of Cigarette Exposure',
+            'q33': 'Cigarette Smoke Count',
+            'q34': 'Cigarettes Per Day',
+            'q35': 'Ever Vaped',
+
+            'q36': 'Currently Vaping',
+            'q37': 'Vape Source',
+            'q38': 'Tobacco Use',
+            'q39': 'Smoked Cigars',
+            'q40': 'Quit Smoking',
+            'q41': 'Alcohol Exposure Age',
+            'q42': 'Alcohol Use in Last 30 Days',
+            'q43': 'Alcohol Overdose',
+            'q44': 'Alcohol Drink Count',
+            'q45': 'Alcohol Source',
+            'q46': 'Marijuana Use',
+            'q47': 'Marijuana Exposure Age',
+            'q48': 'Marijuana Count',
+            'q49': 'Prescription Medicine',
+            'q50': 'Cocaine Use',
+            'q51': 'Glue Use',
+            'q52': 'Heroin Use',
+            'q53': 'Meth Use',
+            'q54': 'MDMA Use',
+            'q55': 'Needle Use',
+            'q56': 'Sexual Encounters',
+            'q57': 'Sexual Exposure Age',
+            'q58': 'Sexual Partner Count',
+            'q59': 'Sexual Partner Count (90 Days)',
+            'q60': 'Drugs Before Sex',
+            'q61': 'Condom Use',
+            'q62': 'Pregnancy Prevention',
+            'q66': 'Weights',
+            'q67': 'Weight Reduction',
+            'q68': 'Juice Drink',
+            'q69': 'Fruit Consumption',
+            'q70': 'Salad Consumption',
+            'q71': 'Potato Consumption',
+            'q72': 'Carrot Consumption',
+            'q73': 'Vegetable Consumption',
+            'q74': 'Soda Consumption',
+            'q75': 'Breakfast Consumption',
+            'q76': 'Physical Activity',
+            'q77': 'PE Class Attendance',
+            'q78': 'Sports Team Count',
+            'q79': 'Concussion Count',
+            'q80': 'Social Media Use',
+            'q81': 'HIV Test',
+            'q82': 'STD',
+            'q83': 'Dentist Count',
+            'q84': 'Mental Health',
+            'q85': 'Sleep Hours',
+            'q86': 'Homeless',
+            'q87': 'School Performance',
+
+        }
+    
+    def _get_readable_name(self, variable_code):
+        """Get readable name for a variable code."""
+        return self.variable_names.get(variable_code, variable_code)
         
     def load_and_prepare_data(self):
         """Load and prepare data for modeling."""
@@ -43,50 +145,65 @@ class VapingPredictiveModeling:
             raise ValueError("Target variable q35 not found in dataset")
         
         # Remove administrative and target-related columns
-        exclude_cols = ['sitecode', 'sitename', 'sitetype', 'sitetypenum', 
+        exclude_cols = [ 'index', 'sitecode', 'sitename', 'sitetype', 'sitetypenum', 
                        'weight', 'stratum', 'PSU', 'record', 'year', 'survyear',
-                       'ever_vaped', 'q35', 'q36']  # Exclude q36 to avoid data leakage
-        
+                       'ever_vaped', 'q35', 'q36', 
+                       'sitecode', 'sitename', 'sitetype', 'sitetypenum', 'year', 
+                       'survyear', 'weight', 'stratum', 'PSU', 'record', 'age', 
+                       'sex', 'grade', 'race4', 'race7', 'stheight', 
+                       'stweight', 'bmi', 'bmipct', 'q63', 'sexpart', 'sexpart2',
+                       ]  # Exclude q36 to avoid data leakage
+        # remove all cols starting with qn 
+        exclude_cols += [col for col in self.df.columns if col.startswith('qn') ]
+        self.df = self.df.dropna(axis=0, how="any")
+        # drop columns with NaN more than 50% 
         feature_cols = [col for col in self.df.columns if col not in exclude_cols]
+        # remove rows with missing target qnfrevp
+        # self.df = self.df.dropna(subset=['qnfrevp'])
         
+        # convert target to 0 1 from 1 2 
+        # self.df['qnfrevp'] = self.df['qnfrevp'].map({1: 0, 2: 1})
+        
+        print("After removing missing values: size =", self.df.shape)
         # Prepare features and target
         X = self.df[feature_cols].copy()
         y = self.df['ever_vaped']
+        # y = self.df['qnfrevp']
         
-        # Remove rows where target is missing
-        valid_indices = y.notna()
-        X = X[valid_indices]
-        y = y[valid_indices]
-        
-        print(f"After removing missing targets: {X.shape[0]} samples")
         print(f"Number of features: {len(feature_cols)}")
         print(f"Target distribution: {y.value_counts().to_dict()}")
         print(f"Vaping rate: {y.mean():.2%}")
         
-        # Handle missing values aggressively
+        # Handle missing values
         print("Handling missing values...")
         
-        # Drop columns with >50% missing values
-        missing_pct = X.isnull().sum() / len(X)
-        cols_to_drop = missing_pct[missing_pct > 0.5].index
-        if len(cols_to_drop) > 0:
-            print(f"Dropping {len(cols_to_drop)} columns with >50% missing values")
-            X = X.drop(columns=cols_to_drop)
-        
-        # For remaining columns, simple imputation
+        # For categorical variables, fill with mode
+        # For numerical variables, fill with median
         for col in X.columns:
-            if X[col].dtype == 'object':
-                # For categorical, use mode or 'Unknown'
+            if X[col].dtype in ['object']:
+                # Categorical - use mode
                 mode_val = X[col].mode()
-                fill_val = mode_val[0] if len(mode_val) > 0 else 'Unknown'
-                X[col] = X[col].fillna(fill_val)
-            else:
-                # For numerical, use median
-                median_val = X[col].median()
-                if pd.isna(median_val):
-                    X[col] = X[col].fillna(0)  # If all values are missing, use 0
+                if len(mode_val) > 0:
+                    X[col] = X[col].fillna(mode_val[0])
                 else:
-                    X[col] = X[col].fillna(median_val)
+                    X[col] = X[col].fillna('Unknown')
+            else:
+                # Numerical - use median
+                X[col] = X[col].fillna(X[col].median())
+        
+        # Double-check for any remaining NaN values
+        remaining_nan = X.isnull().sum().sum()
+        if remaining_nan > 0:
+            print(f"Warning: {remaining_nan} NaN values remain, filling with 0...")
+            X = X.fillna(0)
+        
+        print(f"Final check - NaN values remaining: {X.isnull().sum().sum()}")
+        
+        # try to balance the dataset if the classes are imbalanced
+        from imblearn.over_sampling import SMOTE
+        smote = SMOTE(random_state=42)
+        X, y = smote.fit_resample(X, y)
+        print(f"After SMOTE, target distribution: {y.value_counts().to_dict()}")
         
         # Encode categorical variables
         label_encoders = {}
@@ -96,36 +213,26 @@ class VapingPredictiveModeling:
                 X[col] = le.fit_transform(X[col].astype(str))
                 label_encoders[col] = le
         
-        # Final aggressive cleanup
-        X = X.fillna(0)  # Replace any remaining NaN with 0
-        
         # Remove low variance features
         variance_threshold = 0.01
         variances = X.var()
         low_var_cols = variances[variances < variance_threshold].index
-        X_final = X.drop(columns=low_var_cols)
+        X = X.drop(columns=low_var_cols)
         
         print(f"Removed {len(low_var_cols)} low variance features")
-        print(f"Final feature count: {len(X_final.columns)}")
+        print(f"Final feature count: {len(X.columns)}")
         
-        # Verify no missing values remain
-        missing_count = X_final.isnull().sum().sum()
-        print(f"Missing values after imputation: {missing_count}")
+        
         
         # Split the data
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
-            X_final, y, test_size=0.2, random_state=42, stratify=y
+            X, y, test_size=0.2, random_state=42, stratify=y
         )
-        
-        # Scale features for Logistic Regression
-        self.scaler = StandardScaler()
-        self.X_train_scaled = self.scaler.fit_transform(self.X_train)
-        self.X_test_scaled = self.scaler.transform(self.X_test)
         
         print(f"Training set: {self.X_train.shape[0]} samples")
         print(f"Test set: {self.X_test.shape[0]} samples")
         
-        return X_final, y
+        return X, y
     
     def train_models(self):
         """Train multiple classification models."""
@@ -135,13 +242,6 @@ class VapingPredictiveModeling:
         
         # Define models with optimized parameters
         self.models = {
-            'Logistic Regression': LogisticRegression(
-                C=1.0,
-                penalty='l2',
-                solver='liblinear',
-                random_state=42,
-                max_iter=1000
-            ),
             'Random Forest': RandomForestClassifier(
                 n_estimators=200,
                 max_depth=15,
@@ -164,34 +264,25 @@ class VapingPredictiveModeling:
                 random_state=42,
                 eval_metric='logloss'
             )
-            
         }
         
         # Train each model and collect results
         for name, model in self.models.items():
             print(f"\nTraining {name}...")
             
-            # Use scaled data for Logistic Regression, original for tree-based models
-            if name == 'Logistic Regression':
-                X_train_use = self.X_train_scaled
-                X_test_use = self.X_test_scaled
-            else:
-                X_train_use = self.X_train
-                X_test_use = self.X_test
-            
             # Train the model
-            model.fit(X_train_use, self.y_train)
+            model.fit(self.X_train, self.y_train)
             
             # Make predictions
-            y_pred = model.predict(X_test_use)
-            y_proba = model.predict_proba(X_test_use)[:, 1]
+            y_pred = model.predict(self.X_test)
+            y_proba = model.predict_proba(self.X_test)[:, 1]
             
             # Calculate metrics
             auc_score = roc_auc_score(self.y_test, y_proba)
             avg_precision = average_precision_score(self.y_test, y_proba)
             
-            # Cross-validation (use appropriate data)
-            cv_scores = cross_val_score(model, X_train_use, self.y_train, 
+            # Cross-validation
+            cv_scores = cross_val_score(model, self.X_train, self.y_train, 
                                       cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=42),
                                       scoring='roc_auc')
             
@@ -215,7 +306,7 @@ class VapingPredictiveModeling:
         """Plot ROC curves for all models."""
         plt.figure(figsize=(12, 8))
         
-        colors = ['purple', 'blue', 'red', 'green', 'orange']
+        colors = ['blue', 'red', 'green', 'orange', 'purple']
         
         for i, (name, results) in enumerate(self.results.items()):
             # Calculate ROC curve
@@ -240,13 +331,12 @@ class VapingPredictiveModeling:
         
         plt.tight_layout()
         plt.savefig('output/roc_curves_comparison.png', dpi=300, bbox_inches='tight')
-        plt.show()
     
     def plot_precision_recall_curves(self):
         """Plot Precision-Recall curves for all models."""
         plt.figure(figsize=(12, 8))
         
-        colors = ['purple', 'blue', 'red', 'green', 'orange']
+        colors = ['blue', 'red', 'green', 'orange', 'purple']
         
         for i, (name, results) in enumerate(self.results.items()):
             # Calculate Precision-Recall curve
@@ -272,133 +362,47 @@ class VapingPredictiveModeling:
         
         plt.tight_layout()
         plt.savefig('output/precision_recall_curves.png', dpi=300, bbox_inches='tight')
-        plt.show()
     
     def plot_feature_importance_comparison(self):
         """Compare feature importance across models."""
-        fig, axes = plt.subplots(2, 2, figsize=(20, 16))
-        axes = axes.flatten()
-        
-        # Create mapping from survey codes to descriptive names
-        feature_name_mapping = {
-            'q8': 'Seat Belt Use',
-            'q9': 'Riding with Drinking Driver',
-            'q10': 'Drinking and Driving',
-            'q11': 'Texting and Driving',
-            'q12': 'Weapon Carrying at School',
-            'q13': 'Gun Carrying',
-            'q14': 'Safety Concerns at School',
-            'q15': 'Threatened at School',
-            'q16': 'Physical Fighting',
-            'q19': 'Forced Sexual Intercourse',
-            'q20': 'Sexual Violence',
-            'q21': 'Sexual Dating Violence',
-            'q22': 'Physical Dating Violence',
-            'q24': 'Bullying at School',
-            'q25': 'Electronic Bullying',
-            'q26': 'Sad or Hopeless',
-            'q27': 'Considered Suicide',
-            'q28': 'Made Suicide Plan',
-            'q29': 'Attempted Suicide',
-            'q30': 'Injurious Suicide Attempt',
-            'q32': 'Ever Cigarette Use',
-            'q33': 'Current Cigarette Use',
-            'q34': 'Heavy Cigarette Use',
-            'q38': 'Current Smokeless Tobacco',
-            'q39': 'Current Cigar Use',
-            'q40': 'Tobacco Cessation Attempts',
-            'q41': 'Early Alcohol Use',
-            'q42': 'Current Alcohol Use',
-            'q43': 'Binge Drinking',
-            'q44': 'Heavy Drinking',
-            'q45': 'Alcohol Source/Access',
-            'q46': 'Ever Marijuana Use',
-            'q47': 'Early Marijuana Initiation',
-            'q48': 'Current Marijuana Use',
-            'q49': 'Prescription Drug Misuse',
-            'q50': 'Ever Cocaine Use',
-            'q51': 'Ever Inhalant Use',
-            'q52': 'Ever Heroin Use',
-            'q53': 'Ever Methamphetamine Use',
-            'q54': 'Ever Ecstasy Use',
-            'q55': 'Injected Drug Use',
-            'q56': 'Ever Sexual Intercourse',
-            'q57': 'Early Sexual Intercourse',
-            'q58': 'Multiple Sex Partners',
-            'q59': 'Current Sexual Activity',
-            'q60': 'Alcohol/Drugs and Sex',
-            'q61': 'Condom Use',
-            'q63': 'Sex of Sexual Contacts',
-            'q66': 'Weight Perception',
-            'q67': 'Weight Loss Attempts',
-            'q68': 'Fruit Juice Consumption',
-            'q69': 'Fruit Consumption',
-            'q70': 'Salad Consumption',
-            'q71': 'Potato Consumption',
-            'q72': 'Carrot Consumption',
-            'q73': 'Vegetable Consumption',
-            'q74': 'Soda Consumption',
-            'q75': 'Breakfast Consumption',
-            'q76': 'Physical Activity',
-            'q77': 'PE Class Attendance',
-            'q78': 'Sports Team Participation',
-            'q79': 'Concussion History',
-            'q81': 'HIV Testing',
-            'q82': 'STD Testing',
-            'q83': 'Oral Health Care',
-            'q85': 'Sleep Duration',
-            'q87': 'Academic Grades',
-            'age': 'Age',
-            'sex': 'Sex',
-            'grade': 'Grade Level',
-            'race4': 'Race/Ethnicity',
-            'race7': 'Race/Ethnicity (Detailed)',
-            'stheight': 'Height',
-            'stweight': 'Body Weight',
-            'bmi': 'Body Mass Index',
-            'bmipct': 'BMI Percentile',
-            'sexpart': 'Sex of Partners',
-            'sexpart2': 'Sex of Partners (Collapsed)'
-        }
+        fig, axes = plt.subplots(1, 3, figsize=(24, 10))
         
         for i, (name, results) in enumerate(self.results.items()):
-            if i >= 4:  # Limit to 4 subplots
-                break
-                
             model = results['model']
             
             # Get feature importance
             if hasattr(model, 'feature_importances_'):
                 importance = model.feature_importances_
-                feature_names = self.X_train.columns
-            elif hasattr(model, 'coef_'):
-                # For Logistic Regression, use absolute coefficients
-                importance = np.abs(model.coef_[0])
-                feature_names = self.X_train.columns
             else:
                 continue
             
-            # Create feature importance dataframe with descriptive names
-            descriptive_names = [feature_name_mapping.get(fname, fname) for fname in feature_names]
+            # Create feature importance dataframe with readable names
+            feature_names = self.X_train.columns
+            readable_names = [self._get_readable_name(fname) for fname in feature_names]
             
             importance_df = pd.DataFrame({
-                'feature': descriptive_names,
+                'feature': readable_names,
+                'feature_code': feature_names,
                 'importance': importance
             }).sort_values('importance', ascending=True)
             
             # Plot top 15 features
             top_15 = importance_df.tail(15)
             
-            axes[i].barh(range(len(top_15)), top_15['importance'])
+            bars = axes[i].barh(range(len(top_15)), top_15['importance'], alpha=0.8)
             axes[i].set_yticks(range(len(top_15)))
             axes[i].set_yticklabels(top_15['feature'], fontsize=10)
-            axes[i].set_xlabel('Feature Importance' if name != 'Logistic Regression' else 'Absolute Coefficient')
-            axes[i].set_title(f'{name}\nTop 15 Features', fontweight='bold')
-            axes[i].grid(True, alpha=0.3)
+            axes[i].set_xlabel('Feature Importance', fontsize=12)
+            axes[i].set_title(f'{name}\nTop 15 Most Important Features', fontweight='bold', fontsize=14)
+            axes[i].grid(True, alpha=0.3, axis='x')
+            
+            # Add importance values as text on bars
+            for j, (bar, imp_val) in enumerate(zip(bars, top_15['importance'])):
+                axes[i].text(bar.get_width() + 0.001, bar.get_y() + bar.get_height()/2,
+                           f'{imp_val:.3f}', va='center', fontsize=9, fontweight='bold')
         
         plt.tight_layout()
         plt.savefig('output/feature_importance_comparison.png', dpi=300, bbox_inches='tight')
-        plt.show()
     
     def plot_model_performance_summary(self):
         """Create a summary plot of model performance metrics."""
@@ -412,7 +416,7 @@ class VapingPredictiveModeling:
         avg_precisions = [self.results[m]['avg_precision'] for m in models]
         
         # 1. Test AUC Scores
-        bars1 = ax1.bar(models, auc_scores, color=['purple', 'blue', 'red', 'green'], alpha=0.7)
+        bars1 = ax1.bar(models, auc_scores, color=['blue', 'red', 'green'], alpha=0.7)
         ax1.set_ylabel('AUC Score')
         ax1.set_title('Test Set AUC Scores', fontweight='bold')
         ax1.set_ylim(0, 1)
@@ -424,7 +428,7 @@ class VapingPredictiveModeling:
                     f'{score:.4f}', ha='center', va='bottom', fontweight='bold')
         
         # 2. Cross-Validation AUC with error bars
-        bars2 = ax2.bar(models, cv_means, yerr=cv_stds, color=['purple', 'blue', 'red', 'green'], 
+        bars2 = ax2.bar(models, cv_means, yerr=cv_stds, color=['blue', 'red', 'green'], 
                        alpha=0.7, capsize=5)
         ax2.set_ylabel('CV AUC Score')
         ax2.set_title('Cross-Validation AUC Scores (±1 std)', fontweight='bold')
@@ -437,7 +441,7 @@ class VapingPredictiveModeling:
                     f'{mean:.3f}±{std:.3f}', ha='center', va='bottom', fontweight='bold')
         
         # 3. Average Precision Scores
-        bars3 = ax3.bar(models, avg_precisions, color=['purple', 'blue', 'red', 'green'], alpha=0.7)
+        bars3 = ax3.bar(models, avg_precisions, color=['blue', 'red', 'green'], alpha=0.7)
         ax3.set_ylabel('Average Precision')
         ax3.set_title('Average Precision Scores', fontweight='bold')
         ax3.set_ylim(0, 1)
@@ -486,7 +490,6 @@ class VapingPredictiveModeling:
         
         plt.tight_layout()
         plt.savefig('output/model_performance_summary.png', dpi=300, bbox_inches='tight')
-        plt.show()
     
     def generate_detailed_report(self):
         """Generate a detailed classification report for each model."""
