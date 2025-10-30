@@ -39,16 +39,16 @@ academic_performance: 0.0051
 
 TOP 10 SOCIODEMOGRAPHIC INTERACTIONS:
 ------------------------------------------
- 1. stweight × bmi: 0.0000
- 2. bmi × bmipct: 0.0000
- 3. race7 × bmi: 0.0000
- 4. age × bmi: 0.0000
- 5. grade × bmi: 0.0000
- 6. sex × bmi: 0.0000
- 7. stweight × bmipct: 0.0000
- 8. race4 × bmi: 0.0000
- 9. stheight × bmi: 0.0000
-10. race7 × stweight: 0.0000
+ 1. stheight × bmipct: 0.4330
+ 2. stheight × bmi: 0.4293
+ 3. stweight × bmipct: 0.4188
+ 4. stweight × bmi: 0.4161
+ 5. sex × stweight: 0.3807
+ 6. age × bmi: 0.3710
+ 7. bmi × bmipct: 0.3697
+ 8. grade × bmipct: 0.3541
+ 9. race7 × stweight: 0.3525
+10. stheight × stweight: 0.3521
 
 KEY INSIGHTS AND RECOMMENDATIONS:
 -----------------------------------

@@ -144,10 +144,25 @@ class ComprehensiveAnalysisPipeline:
         print("\n2.6 Creating performance summary...")
         summary_df = self.modeler.create_performance_summary_table()
         
+        # Feature importance analysis with readable names
+        print("\n2.7 Analyzing feature importance with readable variable names...")
+        variable_mapping = self.data_analyzer.get_variable_mapping()
+        
+        # Analyze feature importance for all tree-based models
+        tree_models = ['Random_Forest_Tuned']
+        for model_name in tree_models:
+            if model_name in self.modeler.models:
+                self.modeler.analyze_feature_importance(
+                    model_name=model_name, 
+                    top_n=20, 
+                    variable_mapping=variable_mapping
+                )
+        
         print(f"\nPhase 2 Complete:")
         print(f"- Models trained: {len(results)}")
         print(f"- Best model: Random Forest")
         print(f"- Performance metrics calculated and visualized")
+        print(f"- Feature importance analyzed with readable names")
     
     def run_phase_3_interpretability_analysis(self, top_n_features: int = 15) -> None:
         """
@@ -159,8 +174,9 @@ class ComprehensiveAnalysisPipeline:
         
         # Setup interpretability analysis
         print("\n3.1 Setting up interpretability analysis...")
+        variable_mapping = self.data_analyzer.get_variable_mapping()
         self.interpreter.setup_analysis(
-            self.best_model, self.X_test, self.y_test, self.feature_domains
+            self.best_model, self.X_test, self.y_test, self.feature_domains, variable_mapping
         )
         
         # Calculate SHAP values (mock implementation)

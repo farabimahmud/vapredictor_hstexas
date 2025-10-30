@@ -231,8 +231,38 @@ def quick_model_test():
     # Load variable mapping
     try:
         var_df = pd.read_csv("../variable_names.csv")
-        variable_mapping = dict(zip(var_df['variable'], var_df['description']))
-    except:
+        if 'name' in var_df.columns and 'newname' in var_df.columns:
+            # Create comprehensive mapping
+            variable_mapping = {}
+            for _, row in var_df.iterrows():
+                name = row['name']
+                if pd.notna(row['newname']) and row['newname'].strip():
+                    description = row['newname'].strip()
+                else:
+                    # Create readable name from variable code
+                    if name.startswith('qn') and len(name) > 2:
+                        # For derived variables (qn*), try to find base variable (q*)
+                        base_var = 'q' + name[2:]
+                        base_desc = None
+                        for _, base_row in var_df.iterrows():
+                            if base_row['name'] == base_var and pd.notna(base_row['newname']) and base_row['newname'].strip():
+                                base_desc = base_row['newname'].strip()
+                                break
+                        if base_desc:
+                            description = f"Ever {base_desc}" if 'ever' not in base_desc.lower() else base_desc
+                        else:
+                            description = f"Derived: {name.upper()}"
+                    elif name.startswith('q'):
+                        description = f"Survey Question {name.upper()}"
+                    else:
+                        description = name.title().replace('_', ' ')
+                
+                variable_mapping[name] = description
+        else:
+            # Fallback to other column names
+            variable_mapping = dict(zip(var_df.iloc[:, 0], var_df.iloc[:, 1]))
+    except Exception as e:
+        print(f"Warning: Could not load variable mapping: {e}")
         variable_mapping = {}
     
     tree_models = ['Random Forest', 'XGBoost', 'AdaBoost']
@@ -245,15 +275,21 @@ def quick_model_test():
             model = results[model_name]['model']
             if hasattr(model, 'feature_importances_'):
                 importance_df = pd.DataFrame({
-                    'feature': X.columns,
+                    'feature_code': X.columns,
                     'importance': model.feature_importances_
                 }).sort_values('importance', ascending=False)
                 
+                # Add readable names
+                importance_df['feature_name'] = importance_df['feature_code'].map(
+                    lambda x: variable_mapping.get(x, x)
+                )
+                
                 for i, (_, row) in enumerate(importance_df.head(10).iterrows(), 1):
-                    feature_name = variable_mapping.get(row['feature'], row['feature'])
+                    feature_name = row['feature_name']
+                    feature_code = row['feature_code']
                     print(f"  {i:2d}. {feature_name}: {row['importance']:.4f}")
-                    if feature_name != row['feature']:
-                        print(f"      Code: {row['feature']}")
+                    if feature_name != feature_code:
+                        print(f"      Code: {feature_code}")
     
     # ROC Curve Plot
     print("\n" + "="*60)
@@ -299,6 +335,45 @@ def quick_model_test():
     # Save results
     comparison_df.to_csv(output_dir / 'quick_model_comparison.csv', index=False)
     print(f"Results saved to {output_dir / 'quick_model_comparison.csv'}")
+    
+    # Quick interaction test
+    print("\n" + "="*60)
+    print("QUICK INTERACTION ANALYSIS TEST")
+    print("="*60)
+    
+    # Test improved interaction analysis with best model
+    try:
+        best_model_name = max(results.keys(), key=lambda k: results[k]['auc'] if results[k] else 0)
+        if best_model_name in results and results[best_model_name] is not None:
+            print(f"Testing interactions with {best_model_name}...")
+            
+            from interpretability_analysis import InterpretabilityAnalysis
+            
+            # Setup analysis
+            interp = InterpretabilityAnalysis()
+            
+            # Create feature domains (simplified)
+            feature_domains = {'demographics': ['age', 'sex', 'grade', 'race4', 'race7', 'stheight', 'stweight', 'bmi', 'bmipct']}
+            
+            interp.setup_analysis(
+                model=results[best_model_name]['model'],
+                X_test=X_test,
+                y_test=y_test,
+                feature_domains=feature_domains,
+                variable_mapping=variable_mapping
+            )
+            
+            # Run interaction analysis
+            interactions_df = interp.analyze_sociodemographic_interactions()
+            
+            print(f"\nInteraction test results:")
+            print(f"- Total interactions analyzed: {len(interactions_df)}")
+            print(f"- Non-zero interactions: {(interactions_df['interaction_strength'] > 0).sum()}")
+            print(f"- Max interaction strength: {interactions_df['interaction_strength'].max():.6f}")
+            print(f"- Mean interaction strength: {interactions_df['interaction_strength'].mean():.6f}")
+            
+    except Exception as e:
+        print(f"Interaction test failed: {e}")
     
     print("\n" + "="*80)
     print("QUICK MODEL TEST COMPLETED")

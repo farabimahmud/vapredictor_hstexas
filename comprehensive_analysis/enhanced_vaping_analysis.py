@@ -105,7 +105,7 @@ class ComprehensiveVapingAnalysis:
         self.logger = logging.getLogger(__name__)
         
     def load_variable_mapping(self) -> Dict[str, str]:
-        """Load variable name mapping from CSV file"""
+        """Load variable name mapping from CSV file with enhanced handling for derived variables"""
         self.logger.info("Loading variable name mapping...")
         
         var_df = pd.read_csv(self.variable_names_path)
@@ -116,14 +116,34 @@ class ComprehensiveVapingAnalysis:
             if pd.notna(row['newname']) and row['newname'].strip():
                 readable_name = row['newname'].strip()
             else:
-                # Create readable name from variable code
-                readable_name = self._create_readable_name(var_code)
+                # Enhanced handling for derived variables (qn*) 
+                if var_code.startswith('qn') and len(var_code) > 2:
+                    # For derived variables (qn*), try to find base variable (q*)
+                    base_var = 'q' + var_code[2:]
+                    base_desc = None
+                    for _, base_row in var_df.iterrows():
+                        if base_row['name'] == base_var and pd.notna(base_row['newname']) and base_row['newname'].strip():
+                            base_desc = base_row['newname'].strip()
+                            break
+                    if base_desc:
+                        readable_name = f"Ever {base_desc}" if 'ever' not in base_desc.lower() else base_desc
+                    else:
+                        readable_name = self._create_readable_name(var_code)
+                else:
+                    # Create readable name from variable code
+                    readable_name = self._create_readable_name(var_code)
             
             mapping[var_code] = readable_name
             
         self.variable_mapping = mapping
         self.logger.info(f"Loaded {len(mapping)} variable mappings")
         return mapping
+    
+    def get_variable_mapping(self) -> Dict[str, str]:
+        """Get the current variable mapping dictionary"""
+        if self.variable_mapping is None:
+            self.load_variable_mapping()
+        return self.variable_mapping
     
     def _create_readable_name(self, var_code: str) -> str:
         """Create readable name for variables without mapping"""
