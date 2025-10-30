@@ -1,318 +1,358 @@
 # Comprehensive Vaping Behavior Prediction Analysis
 
-## Overview
+This repository contains a comprehensive machine learning framework for predicting vaping behavior in adolescents using the Texas Youth Risk Behavior Survey (YRBS) data. The analysis follows enhanced methodological patterns from health behavior research literature and implements multiple advanced modeling approaches.
 
-This comprehensive analysis framework implements enhanced methodological best practices for predicting vaping behavior, following patterns from recent health behavior research literature. The analysis includes advanced modeling, interpretability analysis, and intersectionality considerations.
+## 📊 Overview
 
-## Key Features
+The framework implements a complete pipeline including:
+- **Data preprocessing** with domain-specific feature engineering
+- **Four advanced machine learning models**: Random Forest, XGBoost, AdaBoost, and Logistic Regression
+- **Comprehensive model evaluation** with ROC analysis and feature importance
+- **Advanced interpretability analysis** with SHAP values and partial dependence plots
+- **Enhanced reporting** with readable variable names and clinical interpretations
 
-### 1. **Enhanced Target Definition**
-- **Frequent Vaping**: ≥20 days of vaping in past 30 days (clinically relevant)
-- **Ever Vaped**: Binary indicator for comparison
-- Automatic selection based on data availability
+## 🎯 Key Results
 
-### 2. **Comprehensive Feature Categorization**
-Features are organized into meaningful domains:
-- **Demographics**: Age, sex, grade, race, BMI
-- **Mental Health**: Depression, suicidal ideation, sleep
-- **Substance Use**: Alcohol, marijuana, tobacco, other drugs
-- **Safety/Violence**: Weapon carrying, fights, threats
-- **Bullying/Discrimination**: School bullying, online harassment
-- **Sexual Behavior**: Partners, protection use, risk behaviors
-- **Nutrition/Eating**: Diet patterns, weight management
-- **Physical Activity**: Exercise, sports participation
-- **Health Services**: Medical care, preventive services
-- **Adverse Childhood Experiences**: Trauma, family dysfunction
-- **Social Support**: Parental monitoring, peer relationships
+- **Best Model**: XGBoost Classifier (AUC: 0.9697, 94.86% accuracy)
+- **Dataset**: 32,324 observations with 157 features across 13 behavioral domains
+- **Target**: Ever vaped e-cigarettes (8.56% prevalence)
+- **Top Predictors**: Cigarette smoking behaviors, mental health factors, risk-taking behaviors
 
-### 3. **Advanced Missing Data Handling**
-- **Primary**: Simple imputation (median/mode)
-- **Sensitivity**: Multiple Imputation by Chained Equations (MICE)
-- Comprehensive missingness reporting
+## 🛠️ Prerequisites
 
-### 4. **Sophisticated Modeling Approach**
-- **Primary Model**: Random Forest with 10-fold CV hyperparameter tuning
-- **60/40 train-test split** following literature best practices
-- **SMOTE oversampling** for class balance in training
-- **Comparison Models**: Logistic regression (demographics-only and full)
+### System Requirements
+- **Python**: 3.8 or higher
+- **Operating System**: macOS, Linux, or Windows
+- **RAM**: Minimum 8GB (16GB recommended for full analysis)
+- **Storage**: ~2GB free space for data and outputs
 
-### 5. **Comprehensive Evaluation Metrics**
-- **AUC-ROC**: Primary discriminative performance metric
-- **C-Index**: Concordance index (equivalent to AUC for binary)
-- **Average Precision**: Precision-recall performance
-- **Calibration**: Reliability assessment with Brier score
-- **Clinical Metrics**: Sensitivity, specificity, PPV, NPV
+### Required Data Files
+Ensure these files are present in the parent directory (`../`):
+- `hstexas.csv` - Texas YRBS dataset
+- `variable_names.csv` - Variable name mapping file
 
-### 6. **Advanced Interpretability**
-- **SHAP Values**: Model explanation and feature importance
-- **Partial Dependence Plots**: Individual feature effects
-- **Feature Importance**: Mean decrease in accuracy
-- **Domain-wise Analysis**: Importance by behavioral domain
+## 🚀 Installation & Setup
 
-### 7. **Intersectionality Analysis**
-- **Sociodemographic Interactions**: 9 key variables analyzed
-- **Pairwise Interaction Strengths**: Variance-based quantification
-- **Two-way Partial Dependence**: Visualization of strongest interactions
-- **Health Equity Considerations**: Disparities assessment
-
-### 8. **Comprehensive Sensitivity Analyses**
-- **Multiple Imputation**: MICE vs simple imputation comparison
-- **Restricted Analysis**: Current vapers only (when available)
-- **Cross-validation Stability**: 10-fold CV robustness assessment
-- **Model Comparison**: Complex vs simple approaches
-
-## File Structure
-
-```
-comprehensive_analysis/
-├── enhanced_vaping_analysis.py    # Core data analysis class
-├── advanced_modeling.py           # Modeling and evaluation
-├── interpretability_analysis.py   # SHAP, PDP, interactions
-├── main_analysis.py              # Complete pipeline orchestration
-├── requirements.txt              # Dependencies
-├── README.md                     # This documentation
-├── output/                       # Analysis results
-│   ├── *.png                    # Visualizations
-│   ├── *.csv                    # Summary tables
-│   ├── *.txt                    # Reports
-│   └── *.json                   # Metadata
-└── notebooks/                    # Jupyter notebooks (optional)
-```
-
-## Installation and Setup
-
-### 1. Install Dependencies
-
+### Step 1: Clone the Repository
 ```bash
-# Navigate to the comprehensive_analysis directory
-cd comprehensive_analysis
+git clone <repository-url>
+cd vapredictor_hstexas/comprehensive_analysis
+```
 
-# Install required packages
+### Step 2: Create Virtual Environment (Recommended)
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+
+### Step 3: Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Verify Data Files
-
-Ensure these files are in the parent directory:
-- `hstexas.csv` - Main dataset
-- `variable_names.csv` - Variable name mapping
-
-## Usage
-
-### Quick Start - Complete Analysis
-
-```python
-from main_analysis import ComprehensiveAnalysisPipeline
-
-# Initialize and run complete analysis
-pipeline = ComprehensiveAnalysisPipeline()
-pipeline.run_complete_analysis()
+### Step 4: Verify Installation
+```bash
+python -c "import pandas, numpy, sklearn, xgboost, shap; print('All dependencies installed successfully!')"
 ```
 
-### Customized Analysis
+## 📋 Step-by-Step Instructions to Regenerate All Reports and Graphs
 
+### Option 1: Complete Analysis Pipeline (Recommended)
+
+Run the full comprehensive analysis pipeline:
+
+```bash
+python main_analysis.py
+```
+
+**What this generates:**
+- Complete data preprocessing and feature engineering
+- All four models with hyperparameter tuning
+- Comprehensive model evaluation and comparison
+- Advanced interpretability analysis with SHAP
+- All reports and visualizations
+
+**Estimated runtime**: 15-30 minutes (depending on system)
+
+**Output files created:**
+- `output/comprehensive_analysis_report.txt` - Main analysis report
+- `output/model_comparison_comprehensive.png` - Model performance comparison
+- `output/roc_curves_enhanced.png` - ROC curve comparison
+- `output/shap_feature_importance.png` - SHAP feature importance
+- `output/partial_dependence_plots.png` - Partial dependence analysis
+- `output/calibration_analysis.png` - Model calibration curves
+- `output/interaction_pdp_plots.png` - Interaction analysis
+- `output/interpretability_report.txt` - Detailed interpretability analysis
+- `output/model_performance_summary.csv` - Performance metrics table
+
+### Option 2: Quick Model Comparison (Fast Alternative)
+
+For a faster analysis focusing on model comparison:
+
+```bash
+python quick_test_models.py
+```
+
+**What this generates:**
+- All four models with default/minimal tuning
+- Model performance comparison
+- Feature importance analysis with readable names
+- ROC curve visualization
+
+**Estimated runtime**: 2-5 minutes
+
+**Output files created:**
+- `output/quick_model_comparison.csv` - Performance metrics
+- `output/quick_model_comparison_roc.png` - ROC curves
+- Feature importance displayed in console
+
+### Option 3: Enhanced Feature Importance Report
+
+Generate detailed feature importance analysis with variable names:
+
+```bash
+python feature_importance_report.py
+```
+
+**What this generates:**
+- Cross-model feature importance comparison
+- Readable variable names and descriptions
+- Domain-level importance analysis
+- Clinical interpretation of findings
+
+**Output files created:**
+- `output/enhanced_feature_importance_report.txt` - Detailed feature analysis
+
+### Option 4: Individual Analysis Components
+
+Run specific components of the analysis:
+
+#### A. Data Analysis Only
+```bash
+python -c "
+from enhanced_vaping_analysis import ComprehensiveVapingAnalysis
+analyzer = ComprehensiveVapingAnalysis('../hstexas.csv', '../variable_names.csv')
+analyzer.load_and_explore_data()
+analyzer.create_target_variables()
+X, y = analyzer.prepare_features_for_modeling('ever_vaped')
+X_final = analyzer.handle_missing_data(X)
+print('Data preprocessing complete!')
+"
+```
+
+#### B. Advanced Modeling Only
+```bash
+python -c "
+from advanced_modeling import AdvancedVapingModeling
+modeling = AdvancedVapingModeling('output')
+# Add your modeling code here
+print('Modeling complete!')
+"
+```
+
+#### C. Interpretability Analysis Only
+```bash
+python -c "
+from interpretability_analysis import InterpretabilityAnalysis
+interpreter = InterpretabilityAnalysis('output')
+# Add your interpretability code here
+print('Interpretability analysis complete!')
+"
+```
+
+## 📊 Understanding the Output Files
+
+### Main Reports
+1. **`comprehensive_analysis_report.txt`**
+   - Executive summary with key findings
+   - Model comparison results
+   - Feature importance analysis
+   - Clinical and policy implications
+
+2. **`enhanced_feature_importance_report.txt`**
+   - Detailed feature importance with variable names
+   - Cross-model comparison
+   - Domain-level analysis
+   - Clinical interpretation
+
+### Visualizations
+1. **`model_comparison_comprehensive.png`**
+   - Performance metrics comparison (AUC, Accuracy, Precision, Recall)
+   - Bar charts for easy comparison
+
+2. **`quick_model_comparison_roc.png`** / **`roc_curves_enhanced.png`**
+   - ROC curves for all models
+   - AUC values for each model
+
+3. **`shap_feature_importance.png`**
+   - SHAP feature importance summary
+   - Top predictors with impact direction
+
+4. **`partial_dependence_plots.png`**
+   - Partial dependence plots for top features
+   - Shows relationship between features and predictions
+
+### Data Files
+1. **`quick_model_comparison.csv`** / **`model_performance_summary.csv`**
+   - Detailed performance metrics for all models
+   - Includes AUC, accuracy, precision, recall, F1-score
+
+2. **`processed_data.csv`**
+   - Final preprocessed dataset used for modeling
+   - Can be used for external analysis
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+#### 1. Import Errors
+```bash
+# If you get import errors, ensure all dependencies are installed:
+pip install -r requirements.txt
+
+# For specific packages:
+pip install pandas numpy scikit-learn xgboost matplotlib seaborn shap
+```
+
+#### 2. Memory Issues
+```bash
+# If you encounter memory issues, try the quick analysis:
+python quick_test_models.py
+
+# Or reduce the dataset size in the code
+```
+
+#### 3. Missing Data Files
+```bash
+# Ensure data files are in the correct location:
+ls ../hstexas.csv ../variable_names.csv
+
+# If files are missing, check the parent directory structure
+```
+
+#### 4. XGBoost Installation Issues
+```bash
+# On macOS with Apple Silicon:
+conda install -c conda-forge xgboost
+
+# Or using pip:
+pip install xgboost --no-binary xgboost
+```
+
+#### 5. Long Runtime
+```bash
+# For faster execution, use fewer cross-validation folds:
+# Edit the script to use cv_folds=3 instead of cv_folds=10
+
+# Or run the quick version:
+python quick_test_models.py
+```
+
+## 📈 Expected Outputs and Results
+
+### Model Performance (Expected Results)
+- **XGBoost**: AUC ~0.970, Accuracy ~94.9%
+- **Random Forest**: AUC ~0.969, Accuracy ~94.7%
+- **AdaBoost**: AUC ~0.958, Accuracy ~93.8%
+- **Logistic Regression**: AUC ~0.957, Accuracy ~89.3%
+
+### Top Predictive Features
+1. Ever smoked cigarettes (qn85)
+2. Current cigarette use frequency (q32)
+3. Age first tried cigarettes (q85)
+4. Binge drinking episodes (qn49)
+5. Ever used hard drugs (q75)
+
+### Key Findings
+- Substance use variables dominate predictions
+- Gateway substance hypothesis strongly supported
+- Mental health factors show significant importance
+- All models achieve excellent discrimination (AUC > 0.95)
+
+## 🔬 Customization Options
+
+### Modifying Analysis Parameters
+
+#### Change Target Variable
 ```python
-# Run with specific parameters
-pipeline.run_complete_analysis(
-    imputation_method='mice',     # 'simple' or 'mice'
-    use_smote=True,              # Class balancing
-    cv_folds=10,                 # Cross-validation folds
-    top_n_features=20,           # Features for PDP
-    run_sensitivity=True         # Include sensitivity analyses
+# In enhanced_vaping_analysis.py, modify:
+X, y = analyzer.prepare_features_for_modeling('frequent_vaping')  # Instead of 'ever_vaped'
+```
+
+#### Adjust Model Parameters
+```python
+# In quick_test_models.py or advanced_modeling.py, modify:
+rf_model = RandomForestClassifier(
+    n_estimators=200,  # Increase trees
+    max_depth=20,      # Increase depth
+    random_state=42
 )
 ```
 
-### Phase-by-Phase Analysis
-
+#### Change Cross-Validation Folds
 ```python
-# Run individual phases
-pipeline = ComprehensiveAnalysisPipeline()
-
-# Phase 1: Data preparation
-pipeline.run_phase_1_data_preparation(imputation_method='simple')
-
-# Phase 2: Advanced modeling
-pipeline.run_phase_2_advanced_modeling(use_smote=True, cv_folds=10)
-
-# Phase 3: Interpretability
-pipeline.run_phase_3_interpretability_analysis(top_n_features=15)
-
-# Phase 4: Sensitivity analyses
-pipeline.run_sensitivity_analyses()
-
-# Generate final report
-pipeline.generate_final_report()
+# Modify cv_folds parameter:
+modeling.tune_random_forest(cv_folds=5)  # Instead of 10
 ```
 
-### Individual Module Usage
+## 📝 File Structure
 
-```python
-# Data analysis only
-from enhanced_vaping_analysis import ComprehensiveVapingAnalysis
-
-analyzer = ComprehensiveVapingAnalysis()
-df = analyzer.load_and_explore_data()
-X, y = analyzer.prepare_features_for_modeling()
-
-# Modeling only
-from advanced_modeling import AdvancedVapingModeling
-
-modeler = AdvancedVapingModeling()
-modeler.prepare_training_data(X, y)
-best_model = modeler.tune_random_forest()
-
-# Interpretability only
-from interpretability_analysis import InterpretabilityAnalysis
-
-interpreter = InterpretabilityAnalysis()
-interpreter.setup_analysis(best_model, X_test, y_test)
-interpreter.analyze_sociodemographic_interactions()
+```
+comprehensive_analysis/
+├── README.md                          # This file
+├── requirements.txt                   # Python dependencies
+├── main_analysis.py                   # Complete analysis pipeline
+├── quick_test_models.py              # Quick model comparison
+├── feature_importance_report.py      # Enhanced feature analysis
+├── enhanced_vaping_analysis.py       # Data preprocessing
+├── advanced_modeling.py              # Machine learning models
+├── interpretability_analysis.py      # SHAP and interpretability
+├── output/                           # Generated reports and plots
+│   ├── comprehensive_analysis_report.txt
+│   ├── enhanced_feature_importance_report.txt
+│   ├── *.png                        # Visualization files
+│   └── *.csv                        # Results tables
+└── __pycache__/                      # Python cache files
 ```
 
-## Output Files
+## 🤝 Contributing
 
-### Visualizations
-- `roc_curves_enhanced.png` - ROC curve comparison
-- `model_comparison_comprehensive.png` - Performance metrics
-- `calibration_analysis.png` - Model calibration
-- `shap_feature_importance.png` - SHAP-based importance
-- `partial_dependence_plots.png` - Top feature effects
-- `interaction_pdp_plots.png` - Interaction effects
+To contribute to this analysis:
 
-### Data Files
-- `processed_data.csv` - Cleaned dataset
-- `model_performance_summary.csv` - Performance metrics
-- `analysis_metadata.json` - Analysis parameters
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/your-feature`
+3. **Make your changes** and test thoroughly
+4. **Commit your changes**: `git commit -am 'Add some feature'`
+5. **Push to the branch**: `git push origin feature/your-feature`
+6. **Submit a pull request**
 
-### Reports
-- `comprehensive_analysis_report.txt` - Executive summary
-- `interpretability_report.txt` - Detailed interpretability
-- `analysis.log` - Processing log
+## 📞 Support
 
-## Methodological Alignment
+If you encounter issues:
 
-This framework follows best practices from:
+1. **Check the troubleshooting section** above
+2. **Verify all dependencies** are installed correctly
+3. **Ensure data files** are in the correct location
+4. **Check Python version** compatibility (3.8+)
 
-### Recent Literature Standards
-- **Frequent vaping definition**: ≥20 days/month threshold
-- **Feature domains**: Comprehensive risk factor categorization
-- **Missing data**: Multiple approaches with sensitivity analysis
-- **Modeling**: Random Forest with proper validation
-- **Interpretability**: Advanced explanation methods
-- **Intersectionality**: Sociodemographic interaction analysis
+## 📄 License
 
-### Statistical Rigor
-- **Train-test split**: 60/40 for adequate training data
-- **Cross-validation**: 10-fold stratified CV
-- **Class balance**: SMOTE in training only
-- **Performance metrics**: Multiple complementary measures
-- **Sensitivity analysis**: Robustness across assumptions
+This project is part of academic research. Please cite appropriately if used in publications.
 
-### Clinical Relevance
-- **Meaningful outcomes**: Frequent vs ever use
-- **Domain organization**: Intervention-relevant categories
-- **Equity considerations**: Interaction analysis
-- **Translation potential**: Clinical decision support
+## 🏆 Acknowledgments
 
-## Customization Options
+- Texas Youth Risk Behavior Survey (YRBS) for providing the dataset
+- Enhanced methodological patterns from health behavior research literature
+- Open source machine learning community for tools and libraries
 
-### Target Variable
-```python
-# Use different target
-X, y = analyzer.prepare_features_for_modeling('ever_vaped')
+---
 
-# Modify frequency threshold
-analyzer.frequent_vaping_threshold = 15  # 15+ days instead of 20+
-```
-
-### Feature Selection
-```python
-# Exclude specific domains
-analyzer.feature_domains.pop('sexual_identity_behavior', None)
-
-# Add custom feature groupings
-analyzer.feature_domains['custom_risk'] = ['q26', 'q46', 'q31']
-```
-
-### Model Parameters
-```python
-# Custom Random Forest parameters
-custom_params = {
-    'n_estimators': [100, 300, 500],
-    'max_depth': [10, 20, None],
-    'min_samples_split': [2, 5, 10]
-}
-# Pass to tune_random_forest()
-```
-
-## Performance Expectations
-
-### Typical Results
-- **AUC**: 0.85-0.95 (excellent discrimination)
-- **Sensitivity**: 0.80-0.90 (good case detection)
-- **Specificity**: 0.85-0.95 (good specificity)
-- **Calibration**: Well-calibrated predictions
-
-### Computation Time
-- **Complete analysis**: 10-30 minutes
-- **Data preparation**: 2-5 minutes
-- **Model tuning**: 5-15 minutes
-- **Interpretability**: 3-10 minutes
-
-### Memory Requirements
-- **RAM**: 4-8 GB recommended
-- **Storage**: 100-500 MB for outputs
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Import Errors**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Memory Issues**
-   ```python
-   # Reduce sample sizes
-   pipeline.run_phase_3_interpretability_analysis(top_n_features=10)
-   ```
-
-3. **Missing Variables**
-   - Check variable_names.csv mapping
-   - Verify column names in hstexas.csv
-
-4. **Convergence Issues**
-   ```python
-   # Increase iterations for logistic regression
-   # Reduce complexity for Random Forest
-   ```
-
-### Performance Optimization
-
-```python
-# Parallel processing
-import os
-os.environ['SCIKIT_LEARN_N_JOBS'] = '4'  # Use 4 cores
-
-# Memory management
-import gc
-gc.collect()  # Force garbage collection
-```
-
-## Citation and Attribution
-
-If using this framework, please cite:
-- The original dataset source
-- Relevant methodological papers
-- This analysis framework
-
-## Contact and Support
-
-For questions about this framework:
-- Review the code documentation
-- Check the analysis logs
-- Examine the output reports
-- Modify parameters as needed
-
-This comprehensive framework provides a robust foundation for advanced vaping behavior prediction analysis following current methodological best practices.
+**Last Updated**: October 30, 2025  
+**Version**: 2.0 (Enhanced with XGBoost and AdaBoost)  
+**Contact**: [Your contact information]
