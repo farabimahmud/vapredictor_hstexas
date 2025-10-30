@@ -14,9 +14,10 @@ from datetime import datetime
 
 # Machine Learning
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
+import xgboost as xgb
 from sklearn.metrics import (
     roc_curve, auc, roc_auc_score, classification_report, 
     confusion_matrix, precision_recall_curve, average_precision_score,
@@ -127,6 +128,96 @@ class AdvancedVapingModeling:
         self.models['Random_Forest_Tuned'] = best_rf
         
         return best_rf
+    
+    def tune_xgboost(self, cv_folds: int = 10) -> Any:
+        """
+        Tune XGBoost hyperparameters using cross-validation
+        """
+        print(f"Tuning XGBoost hyperparameters with {cv_folds}-fold CV...")
+        
+        # Define parameter grid for XGBoost
+        param_grid = {
+            'n_estimators': [100, 200],
+            'max_depth': [3, 6, 9],
+            'learning_rate': [0.01, 0.1, 0.2],
+            'subsample': [0.8, 1.0],
+            'colsample_bytree': [0.8, 1.0],
+            'reg_alpha': [0, 0.1],
+            'reg_lambda': [1, 1.5]
+        }
+        
+        # Base model
+        xgb_base = xgb.XGBClassifier(
+            random_state=self.random_state, 
+            eval_metric='logloss',
+            n_jobs=-1
+        )
+        
+        # Grid search with stratified CV
+        cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=self.random_state)
+        grid_search = GridSearchCV(
+            xgb_base, param_grid, 
+            cv=cv, scoring='roc_auc', 
+            n_jobs=-1, verbose=1
+        )
+        
+        # Fit grid search
+        grid_search.fit(self.X_train, self.y_train)
+        
+        print(f"Best CV AUC: {grid_search.best_score_:.4f}")
+        print(f"Best parameters: {grid_search.best_params_}")
+        
+        # Store best model
+        best_xgb = grid_search.best_estimator_
+        self.models['XGBoost_Tuned'] = best_xgb
+        
+        return best_xgb
+    
+    def tune_adaboost(self, cv_folds: int = 10) -> Any:
+        """
+        Tune AdaBoost hyperparameters using cross-validation
+        """
+        print(f"Tuning AdaBoost hyperparameters with {cv_folds}-fold CV...")
+        
+        from sklearn.ensemble import AdaBoostClassifier
+        from sklearn.tree import DecisionTreeClassifier
+        
+        # Define parameter grid for AdaBoost
+        param_grid = {
+            'n_estimators': [50, 100, 200],
+            'learning_rate': [0.01, 0.1, 1.0, 2.0],
+            'estimator__max_depth': [1, 2, 3],
+            'algorithm': ['SAMME', 'SAMME.R']
+        }
+        
+        # Base estimator
+        base_estimator = DecisionTreeClassifier(random_state=self.random_state)
+        
+        # Base model
+        ada_base = AdaBoostClassifier(
+            estimator=base_estimator,
+            random_state=self.random_state
+        )
+        
+        # Grid search with stratified CV
+        cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=self.random_state)
+        grid_search = GridSearchCV(
+            ada_base, param_grid, 
+            cv=cv, scoring='roc_auc', 
+            n_jobs=-1, verbose=1
+        )
+        
+        # Fit grid search
+        grid_search.fit(self.X_train, self.y_train)
+        
+        print(f"Best CV AUC: {grid_search.best_score_:.4f}")
+        print(f"Best parameters: {grid_search.best_params_}")
+        
+        # Store best model
+        best_ada = grid_search.best_estimator_
+        self.models['AdaBoost_Tuned'] = best_ada
+        
+        return best_ada
     
     def train_comparison_models(self) -> Dict[str, Any]:
         """
@@ -249,9 +340,11 @@ class AdvancedVapingModeling:
         self.results = results
         return results
     
-    def analyze_feature_importance(self, model_name: str = 'Random_Forest_Tuned', top_n: int = 20) -> pd.DataFrame:
+    def analyze_feature_importance(self, model_name: str = 'Random_Forest_Tuned', 
+                                 top_n: int = 20, variable_mapping: dict = None) -> pd.DataFrame:
         """
         Analyze feature importance with mean decrease in accuracy approach
+        Shows readable variable names instead of codes
         """
         print(f"Analyzing feature importance for {model_name}...")
         
@@ -274,15 +367,26 @@ class AdvancedVapingModeling:
             print(f"Model {model_name} does not have feature_importances_ attribute")
             return pd.DataFrame()
         
-        # Create importance dataframe
+        # Create importance dataframe with readable names
         importance_df = pd.DataFrame({
-            'feature': features,
+            'feature_code': features,
             'importance': importance
-        }).sort_values('importance', ascending=False)
+        })
+        
+        # Add readable names if mapping provided
+        if variable_mapping:
+            importance_df['feature_name'] = importance_df['feature_code'].map(
+                lambda x: variable_mapping.get(x, x)
+            )
+        else:
+            importance_df['feature_name'] = importance_df['feature_code']
         
         # Add domain information if available
         if self.feature_domains:
-            importance_df['domain'] = importance_df['feature'].apply(self._get_feature_domain)
+            importance_df['domain'] = importance_df['feature_code'].apply(self._get_feature_domain)
+        
+        # Sort by importance
+        importance_df = importance_df.sort_values('importance', ascending=False)
         
         # Store importance
         self.feature_importance[model_name] = importance_df
@@ -290,7 +394,9 @@ class AdvancedVapingModeling:
         print(f"Top {top_n} most important features:")
         for i, (_, row) in enumerate(importance_df.head(top_n).iterrows(), 1):
             domain = f" ({row['domain']})" if 'domain' in row else ""
-            print(f"  {i:2d}. {row['feature']}{domain}: {row['importance']:.4f}")
+            print(f"  {i:2d}. {row['feature_name']}{domain}: {row['importance']:.4f}")
+            if row['feature_name'] != row['feature_code']:
+                print(f"      Code: {row['feature_code']}")
         
         return importance_df
     

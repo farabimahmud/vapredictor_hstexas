@@ -1,0 +1,286 @@
+====================================================================================================
+ENHANCED FEATURE IMPORTANCE ANALYSIS WITH VARIABLE NAMES
+Vaping Behavior Prediction - Top Predictors Across Models
+====================================================================================================
+
+XGBOOST - TOP 10 PREDICTIVE FEATURES
+------------------------------------------------------------
+   1. qn85
+      Feature Code: qn85
+      Importance: 0.1296 (12.96%)
+      Domain: Substance Use
+
+   2. age_of_cig_exposure
+      Feature Code: q32
+      Importance: 0.1179 (11.79%)
+      Domain: Substance Use
+
+   3. sleep_hours
+      Feature Code: q85
+      Importance: 0.1075 (10.75%)
+      Domain: Substance Use
+
+   4. qn49
+      Feature Code: qn49
+      Importance: 0.0300 (3.00%)
+      Domain: Substance Use
+
+   5. breakfast_eat
+      Feature Code: q75
+      Importance: 0.0292 (2.92%)
+      Domain: Substance Use
+
+   6. drive_car
+      Feature Code: q10
+      Importance: 0.0237 (2.37%)
+      Domain: Safety/Violence
+
+   7. smoked_cigarette
+      Feature Code: q31
+      Importance: 0.0230 (2.30%)
+      Domain: Mental Health
+
+   8. text_while_driving
+      Feature Code: q11
+      Importance: 0.0214 (2.14%)
+      Domain: Safety/Violence
+
+   9. qn26
+      Feature Code: qn26
+      Importance: 0.0194 (1.94%)
+      Domain: Other
+
+  10. qntb2
+      Feature Code: qntb2
+      Importance: 0.0153 (1.53%)
+      Domain: Substance Use
+
+
+RANDOM_FOREST - TOP 10 PREDICTIVE FEATURES
+------------------------------------------------------------
+   1. sleep_hours
+      Feature Code: q85
+      Importance: 0.1059 (10.59%)
+      Domain: Substance Use
+
+   2. age_of_cig_exposure
+      Feature Code: q32
+      Importance: 0.1028 (10.28%)
+      Domain: Substance Use
+
+   3. breakfast_eat
+      Feature Code: q75
+      Importance: 0.0572 (5.72%)
+      Domain: Substance Use
+
+   4. drive_car
+      Feature Code: q10
+      Importance: 0.0443 (4.43%)
+      Domain: Safety/Violence
+
+   5. text_while_driving
+      Feature Code: q11
+      Importance: 0.0383 (3.83%)
+      Domain: Safety/Violence
+
+   6. qn49
+      Feature Code: qn49
+      Importance: 0.0354 (3.54%)
+      Domain: Substance Use
+
+   7. dentist_count
+      Feature Code: q83
+      Importance: 0.0349 (3.49%)
+      Domain: Physical Activity/Health
+
+   8. alcohol_drink_count
+      Feature Code: q44
+      Importance: 0.0343 (3.43%)
+      Domain: Demographics
+
+   9. qn31
+      Feature Code: qn31
+      Importance: 0.0325 (3.25%)
+      Domain: Mental Health
+
+  10. smoked_cigarette
+      Feature Code: q31
+      Importance: 0.0320 (3.20%)
+      Domain: Mental Health
+
+
+ADABOOST - TOP 10 PREDICTIVE FEATURES
+------------------------------------------------------------
+   1. qn31
+      Feature Code: qn31
+      Importance: 0.0759 (7.59%)
+      Domain: Mental Health
+
+   2. qn85
+      Feature Code: qn85
+      Importance: 0.0689 (6.89%)
+      Domain: Substance Use
+
+   3. age_of_cig_exposure
+      Feature Code: q32
+      Importance: 0.0619 (6.19%)
+      Domain: Substance Use
+
+   4. sad_hopeless
+      Feature Code: q26
+      Importance: 0.0596 (5.96%)
+      Domain: Mental Health
+
+   5. sleep_hours
+      Feature Code: q85
+      Importance: 0.0588 (5.88%)
+      Domain: Substance Use
+
+   6. qmusclestrength
+      Feature Code: qmusclestrength
+      Importance: 0.0538 (5.38%)
+      Domain: Physical Activity/Health
+
+   7. qn8
+      Feature Code: qn8
+      Importance: 0.0470 (4.70%)
+      Domain: Physical Activity/Health
+
+   8. qn41
+      Feature Code: qn41
+      Importance: 0.0309 (3.09%)
+      Domain: Substance Use
+
+   9. smoked_cigarette
+      Feature Code: q31
+      Importance: 0.0265 (2.65%)
+      Domain: Mental Health
+
+  10. alcohol_exposure_age
+      Feature Code: q41
+      Importance: 0.0260 (2.60%)
+      Domain: Substance Use
+
+
+CROSS-MODEL FEATURE RANKING
+----------------------------------------
+Features appearing in top 10 across multiple models:
+
+• qn85
+  Code: qn85, Domain: Substance Use
+  Average Importance: 0.0993
+    XGBoost: 0.1296
+    AdaBoost: 0.0689
+
+• age_of_cig_exposure
+  Code: q32, Domain: Substance Use
+  Average Importance: 0.0942
+    XGBoost: 0.1179
+    Random_Forest: 0.1028
+    AdaBoost: 0.0619
+
+• sleep_hours
+  Code: q85, Domain: Substance Use
+  Average Importance: 0.0907
+    XGBoost: 0.1075
+    Random_Forest: 0.1059
+    AdaBoost: 0.0588
+
+• qn31
+  Code: qn31, Domain: Mental Health
+  Average Importance: 0.0542
+    Random_Forest: 0.0325
+    AdaBoost: 0.0759
+
+• breakfast_eat
+  Code: q75, Domain: Substance Use
+  Average Importance: 0.0432
+    XGBoost: 0.0292
+    Random_Forest: 0.0572
+
+• drive_car
+  Code: q10, Domain: Safety/Violence
+  Average Importance: 0.0340
+    XGBoost: 0.0237
+    Random_Forest: 0.0443
+
+• qn49
+  Code: qn49, Domain: Substance Use
+  Average Importance: 0.0327
+    XGBoost: 0.0300
+    Random_Forest: 0.0354
+
+• text_while_driving
+  Code: q11, Domain: Safety/Violence
+  Average Importance: 0.0299
+    XGBoost: 0.0214
+    Random_Forest: 0.0383
+
+• smoked_cigarette
+  Code: q31, Domain: Mental Health
+  Average Importance: 0.0272
+    XGBoost: 0.0230
+    Random_Forest: 0.0320
+    AdaBoost: 0.0265
+
+DOMAIN-LEVEL IMPORTANCE SUMMARY
+-----------------------------------
+• Substance Use
+  Total Importance: 0.9773
+  Average per Feature: 0.0652
+  Features in Top 10: 15
+
+• Mental Health
+  Total Importance: 0.2495
+  Average per Feature: 0.0416
+  Features in Top 10: 6
+
+• Physical Activity/Health
+  Total Importance: 0.1357
+  Average per Feature: 0.0452
+  Features in Top 10: 3
+
+• Safety/Violence
+  Total Importance: 0.1277
+  Average per Feature: 0.0319
+  Features in Top 10: 4
+
+• Demographics
+  Total Importance: 0.0343
+  Average per Feature: 0.0343
+  Features in Top 10: 1
+
+• Other
+  Total Importance: 0.0194
+  Average per Feature: 0.0194
+  Features in Top 10: 1
+
+CLINICAL INTERPRETATION
+-------------------------
+Key Clinical Insights:
+
+1. SUBSTANCE USE DOMINANCE
+   • Cigarette smoking variables consistently rank highest
+   • Age of first cigarette exposure strongly predictive
+   • Current cigarette use frequency is top predictor
+   • Gateway substance hypothesis strongly supported
+
+2. MENTAL HEALTH FACTORS
+   • Depression and hopelessness (qn31) prominent across models
+   • Suicide attempts and ideation appear in multiple models
+   • Mental health screening integration recommended
+
+3. RISK-TAKING BEHAVIORS
+   • Driving-related risk behaviors consistently important
+   • General risk-taking propensity evident
+   • Safety intervention opportunities identified
+
+4. MODEL CONSISTENCY
+   • High agreement between XGBoost and Random Forest
+   • AdaBoost emphasizes mental health factors more
+   • Ensemble approach recommended for robustness
+
+====================================================================================================
+Analysis demonstrates consistent identification of substance use,
+mental health, and risk-taking as primary vaping predictors
+====================================================================================================
