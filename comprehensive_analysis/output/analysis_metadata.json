@@ -1,0 +1,35 @@
+{
+  "timestamp": "2025-10-30T00:13:35.339847",
+  "data_path": "../hstexas.csv",
+  "variable_names_path": "../variable_names.csv",
+  "frequent_vaping_threshold": 20,
+  "train_test_split_ratio": 0.6,
+  "cv_folds": 10,
+  "random_state": 42,
+  "feature_domains": {
+    "demographics": 11,
+    "sexual_identity_behavior": 15,
+    "safety_violence": 16,
+    "bullying_discrimination": 8,
+    "mental_health": 8,
+    "substance_use": 27,
+    "nutrition_eating": 17,
+    "physical_activity": 6,
+    "health_services": 5,
+    "social_media_technology": 1,
+    "academic_performance": 1,
+    "adverse_childhood_experiences": 24,
+    "social_support": 4
+  },
+  "dataset_shape": [
+    32324,
+    270
+  ],
+  "processed_shape": [
+    32324,
+    272
+  ],
+  "feature_count": 157,
+  "target_prevalence": 0.0855710926865487,
+  "imputation_method": "simple"
+}

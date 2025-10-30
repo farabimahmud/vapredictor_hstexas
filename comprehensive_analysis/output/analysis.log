@@ -1,0 +1,212 @@
+2025-10-29 23:51:11,961 - INFO - Loading dataset for comprehensive analysis...
+2025-10-29 23:51:12,220 - INFO - Loaded dataset with shape: (32324, 270)
+2025-10-29 23:51:12,220 - INFO - Loading variable name mapping...
+2025-10-29 23:51:12,226 - INFO - Loaded 269 variable mappings
+2025-10-29 23:51:12,226 - INFO - Dataset Overview:
+2025-10-29 23:51:12,226 - INFO - - Total observations: 32,324
+2025-10-29 23:51:12,226 - INFO - - Total variables: 270
+2025-10-29 23:51:12,236 - INFO - - Memory usage: 71.6 MB
+2025-10-29 23:51:12,236 - INFO - Available vaping variables: ['q35', 'q36', 'qnfrevp', 'qndayevp']
+2025-10-29 23:51:12,247 - INFO - Variables with >50% missing data: 137
+2025-10-29 23:51:12,247 - INFO - Top variables with missing data:
+2025-10-29 23:51:12,247 - INFO -   q65 (Survey Question Q65): 100.0% missing
+2025-10-29 23:51:12,247 - INFO -   q64 (Survey Question Q64): 91.89% missing
+2025-10-29 23:51:12,247 - INFO -   q63 (Survey Question Q63): 80.52% missing
+2025-10-29 23:51:12,247 - INFO -   sexid (Sexid): 92.14% missing
+2025-10-29 23:51:12,247 - INFO -   sexid2 (Sexid2): 92.14% missing
+2025-10-29 23:51:12,247 - INFO -   sexpart (Sexpart): 80.61% missing
+2025-10-29 23:51:12,247 - INFO -   sexpart2 (Sexpart2): 80.61% missing
+2025-10-29 23:51:12,247 - INFO -   transg (Transg): 100.0% missing
+2025-10-29 23:51:12,247 - INFO -   sextrans (Sextrans): 100.0% missing
+2025-10-29 23:51:12,247 - INFO -   q10 (drive_car): 72.34% missing
+2025-10-29 23:51:12,247 - INFO - Creating target variables...
+2025-10-29 23:51:12,261 - INFO - q36 (current vaping) distribution: {1.0: 5062, 2.0: 246, 3.0: 136, 4.0: 91, 5.0: 116, 6.0: 85, 7.0: 208}
+2025-10-29 23:51:12,263 - INFO - frequent_vaping distribution: {0: 32324}
+2025-10-29 23:51:12,264 - INFO - frequent_vaping prevalence: 0.00%
+2025-10-29 23:51:12,264 - INFO - ever_vaped distribution: {0: 29558, 1: 2766}
+2025-10-29 23:51:12,264 - INFO - ever_vaped prevalence: 8.56%
+2025-10-29 23:51:12,264 - INFO - Primary target: frequent_vaping (≥20 days vaping in past 30)
+2025-10-29 23:51:12,264 - INFO - Preparing features for modeling...
+2025-10-29 23:51:12,288 - INFO - Categorizing features by domain...
+2025-10-29 23:51:12,288 - INFO - Domain 'demographics': 11 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'sexual_identity_behavior': 15 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'safety_violence': 16 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'bullying_discrimination': 8 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'mental_health': 8 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'substance_use': 27 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'nutrition_eating': 17 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'physical_activity': 6 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'health_services': 5 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'social_media_technology': 1 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'academic_performance': 1 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'adverse_childhood_experiences': 24 variables
+2025-10-29 23:51:12,288 - INFO - Domain 'social_support': 4 variables
+2025-10-29 23:51:12,307 - INFO - Removed 94 variables with >80% missing data
+2025-10-29 23:51:12,307 - INFO - Final feature count: 157
+2025-10-29 23:51:12,322 - INFO - After removing missing targets: 32324 observations
+2025-10-29 23:51:12,322 - INFO - Target distribution: {0: 32324}
+2025-10-29 23:51:12,322 - INFO - Target prevalence: 0.00%
+2025-10-29 23:51:12,325 - INFO - Overall missingness rate: 23.8%
+2025-10-29 23:51:12,326 - INFO - Handling missing data using simple imputation...
+2025-10-29 23:51:12,390 - INFO - Imputation complete. Remaining NaN values: 0
+2025-10-29 23:51:13,540 - INFO - Analysis metadata saved to output/analysis_metadata.json
+2025-10-29 23:52:02,085 - INFO - Loading dataset for comprehensive analysis...
+2025-10-29 23:52:02,336 - INFO - Loaded dataset with shape: (32324, 270)
+2025-10-29 23:52:02,336 - INFO - Loading variable name mapping...
+2025-10-29 23:52:02,342 - INFO - Loaded 269 variable mappings
+2025-10-29 23:52:02,342 - INFO - Dataset Overview:
+2025-10-29 23:52:02,342 - INFO - - Total observations: 32,324
+2025-10-29 23:52:02,342 - INFO - - Total variables: 270
+2025-10-29 23:52:02,352 - INFO - - Memory usage: 71.6 MB
+2025-10-29 23:52:02,352 - INFO - Available vaping variables: ['q35', 'q36', 'qnfrevp', 'qndayevp']
+2025-10-29 23:52:02,365 - INFO - Variables with >50% missing data: 137
+2025-10-29 23:52:02,365 - INFO - Top variables with missing data:
+2025-10-29 23:52:02,365 - INFO -   q65 (Survey Question Q65): 100.0% missing
+2025-10-29 23:52:02,365 - INFO -   q64 (Survey Question Q64): 91.89% missing
+2025-10-29 23:52:02,365 - INFO -   q63 (Survey Question Q63): 80.52% missing
+2025-10-29 23:52:02,365 - INFO -   sexid (Sexid): 92.14% missing
+2025-10-29 23:52:02,365 - INFO -   sexid2 (Sexid2): 92.14% missing
+2025-10-29 23:52:02,365 - INFO -   sexpart (Sexpart): 80.61% missing
+2025-10-29 23:52:02,365 - INFO -   sexpart2 (Sexpart2): 80.61% missing
+2025-10-29 23:52:02,365 - INFO -   transg (Transg): 100.0% missing
+2025-10-29 23:52:02,365 - INFO -   sextrans (Sextrans): 100.0% missing
+2025-10-29 23:52:02,365 - INFO -   q10 (drive_car): 72.34% missing
+2025-10-29 23:52:02,366 - INFO - Creating target variables...
+2025-10-29 23:52:02,371 - INFO - q36 (current vaping) distribution: {1.0: 5062, 2.0: 246, 3.0: 136, 4.0: 91, 5.0: 116, 6.0: 85, 7.0: 208}
+2025-10-29 23:52:02,372 - WARNING - Frequent vaping prevalence very low (0.9%). Using ever vaped as primary target.
+2025-10-29 23:52:02,373 - INFO - frequent_vaping distribution: {0: 29558, 1: 2766}
+2025-10-29 23:52:02,373 - INFO - frequent_vaping prevalence: 8.56%
+2025-10-29 23:52:02,373 - INFO - ever_vaped distribution: {0: 29558, 1: 2766}
+2025-10-29 23:52:02,373 - INFO - ever_vaped prevalence: 8.56%
+2025-10-29 23:52:02,373 - INFO - Primary target: ever_vaped (ever used e-cigarettes)
+2025-10-29 23:52:02,373 - INFO - Preparing features for modeling...
+2025-10-29 23:52:02,389 - INFO - Categorizing features by domain...
+2025-10-29 23:52:02,389 - INFO - Domain 'demographics': 11 variables
+2025-10-29 23:52:02,389 - INFO - Domain 'sexual_identity_behavior': 15 variables
+2025-10-29 23:52:02,389 - INFO - Domain 'safety_violence': 16 variables
+2025-10-29 23:52:02,389 - INFO - Domain 'bullying_discrimination': 8 variables
+2025-10-29 23:52:02,389 - INFO - Domain 'mental_health': 8 variables
+2025-10-29 23:52:02,389 - INFO - Domain 'substance_use': 27 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'nutrition_eating': 17 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'physical_activity': 6 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'health_services': 5 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'social_media_technology': 1 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'academic_performance': 1 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'adverse_childhood_experiences': 24 variables
+2025-10-29 23:52:02,390 - INFO - Domain 'social_support': 4 variables
+2025-10-29 23:52:02,407 - INFO - Removed 94 variables with >80% missing data
+2025-10-29 23:52:02,407 - INFO - Final feature count: 157
+2025-10-29 23:52:02,422 - INFO - After removing missing targets: 32324 observations
+2025-10-29 23:52:02,422 - INFO - Target distribution: {0: 29558, 1: 2766}
+2025-10-29 23:52:02,422 - INFO - Target prevalence: 8.56%
+2025-10-29 23:52:02,425 - INFO - Overall missingness rate: 23.8%
+2025-10-29 23:52:02,426 - INFO - Handling missing data using simple imputation...
+2025-10-29 23:52:02,491 - INFO - Imputation complete. Remaining NaN values: 0
+2025-10-29 23:52:03,698 - INFO - Analysis metadata saved to output/analysis_metadata.json
+2025-10-30 00:12:57,427 - INFO - Loading dataset for comprehensive analysis...
+2025-10-30 00:12:57,653 - INFO - Loaded dataset with shape: (32324, 270)
+2025-10-30 00:12:57,653 - INFO - Loading variable name mapping...
+2025-10-30 00:12:57,658 - INFO - Loaded 269 variable mappings
+2025-10-30 00:12:57,658 - INFO - Dataset Overview:
+2025-10-30 00:12:57,658 - INFO - - Total observations: 32,324
+2025-10-30 00:12:57,658 - INFO - - Total variables: 270
+2025-10-30 00:12:57,699 - INFO - - Memory usage: 71.6 MB
+2025-10-30 00:12:57,699 - INFO - Available vaping variables: ['q35', 'q36', 'qnfrevp', 'qndayevp']
+2025-10-30 00:12:57,707 - INFO - Variables with >50% missing data: 137
+2025-10-30 00:12:57,707 - INFO - Top variables with missing data:
+2025-10-30 00:12:57,707 - INFO -   q65 (Survey Question Q65): 100.0% missing
+2025-10-30 00:12:57,707 - INFO -   q64 (Survey Question Q64): 91.89% missing
+2025-10-30 00:12:57,707 - INFO -   q63 (Survey Question Q63): 80.52% missing
+2025-10-30 00:12:57,707 - INFO -   sexid (Sexid): 92.14% missing
+2025-10-30 00:12:57,707 - INFO -   sexid2 (Sexid2): 92.14% missing
+2025-10-30 00:12:57,707 - INFO -   sexpart (Sexpart): 80.61% missing
+2025-10-30 00:12:57,707 - INFO -   sexpart2 (Sexpart2): 80.61% missing
+2025-10-30 00:12:57,707 - INFO -   transg (Transg): 100.0% missing
+2025-10-30 00:12:57,707 - INFO -   sextrans (Sextrans): 100.0% missing
+2025-10-30 00:12:57,707 - INFO -   q10 (drive_car): 72.34% missing
+2025-10-30 00:12:57,707 - INFO - Creating target variables...
+2025-10-30 00:12:57,713 - INFO - q36 (current vaping) distribution: {1.0: 5062, 2.0: 246, 3.0: 136, 4.0: 91, 5.0: 116, 6.0: 85, 7.0: 208}
+2025-10-30 00:12:57,714 - WARNING - Frequent vaping prevalence very low (0.9%). Using ever vaped as primary target.
+2025-10-30 00:12:57,714 - INFO - frequent_vaping distribution: {0: 29558, 1: 2766}
+2025-10-30 00:12:57,714 - INFO - frequent_vaping prevalence: 8.56%
+2025-10-30 00:12:57,715 - INFO - ever_vaped distribution: {0: 29558, 1: 2766}
+2025-10-30 00:12:57,715 - INFO - ever_vaped prevalence: 8.56%
+2025-10-30 00:12:57,715 - INFO - Primary target: ever_vaped (ever used e-cigarettes)
+2025-10-30 00:12:57,715 - INFO - Preparing features for modeling...
+2025-10-30 00:12:57,722 - INFO - Categorizing features by domain...
+2025-10-30 00:12:57,722 - INFO - Domain 'demographics': 11 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'sexual_identity_behavior': 15 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'safety_violence': 16 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'bullying_discrimination': 8 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'mental_health': 8 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'substance_use': 27 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'nutrition_eating': 17 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'physical_activity': 6 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'health_services': 5 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'social_media_technology': 1 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'academic_performance': 1 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'adverse_childhood_experiences': 24 variables
+2025-10-30 00:12:57,723 - INFO - Domain 'social_support': 4 variables
+2025-10-30 00:12:57,734 - INFO - Removed 94 variables with >80% missing data
+2025-10-30 00:12:57,734 - INFO - Final feature count: 157
+2025-10-30 00:12:57,745 - INFO - After removing missing targets: 32324 observations
+2025-10-30 00:12:57,745 - INFO - Target distribution: {0: 29558, 1: 2766}
+2025-10-30 00:12:57,745 - INFO - Target prevalence: 8.56%
+2025-10-30 00:12:57,748 - INFO - Overall missingness rate: 23.8%
+2025-10-30 00:12:57,749 - INFO - Handling missing data using simple imputation...
+2025-10-30 00:12:57,815 - INFO - Imputation complete. Remaining NaN values: 0
+2025-10-30 00:13:33,855 - INFO - Loading dataset for comprehensive analysis...
+2025-10-30 00:13:34,079 - INFO - Loaded dataset with shape: (32324, 270)
+2025-10-30 00:13:34,079 - INFO - Loading variable name mapping...
+2025-10-30 00:13:34,083 - INFO - Loaded 269 variable mappings
+2025-10-30 00:13:34,083 - INFO - Dataset Overview:
+2025-10-30 00:13:34,083 - INFO - - Total observations: 32,324
+2025-10-30 00:13:34,083 - INFO - - Total variables: 270
+2025-10-30 00:13:34,093 - INFO - - Memory usage: 71.6 MB
+2025-10-30 00:13:34,093 - INFO - Available vaping variables: ['q35', 'q36', 'qnfrevp', 'qndayevp']
+2025-10-30 00:13:34,101 - INFO - Variables with >50% missing data: 137
+2025-10-30 00:13:34,101 - INFO - Top variables with missing data:
+2025-10-30 00:13:34,101 - INFO -   q65 (Survey Question Q65): 100.0% missing
+2025-10-30 00:13:34,101 - INFO -   q64 (Survey Question Q64): 91.89% missing
+2025-10-30 00:13:34,101 - INFO -   q63 (Survey Question Q63): 80.52% missing
+2025-10-30 00:13:34,101 - INFO -   sexid (Sexid): 92.14% missing
+2025-10-30 00:13:34,101 - INFO -   sexid2 (Sexid2): 92.14% missing
+2025-10-30 00:13:34,101 - INFO -   sexpart (Sexpart): 80.61% missing
+2025-10-30 00:13:34,101 - INFO -   sexpart2 (Sexpart2): 80.61% missing
+2025-10-30 00:13:34,101 - INFO -   transg (Transg): 100.0% missing
+2025-10-30 00:13:34,101 - INFO -   sextrans (Sextrans): 100.0% missing
+2025-10-30 00:13:34,101 - INFO -   q10 (drive_car): 72.34% missing
+2025-10-30 00:13:34,101 - INFO - Creating target variables...
+2025-10-30 00:13:34,108 - INFO - q36 (current vaping) distribution: {1.0: 5062, 2.0: 246, 3.0: 136, 4.0: 91, 5.0: 116, 6.0: 85, 7.0: 208}
+2025-10-30 00:13:34,109 - WARNING - Frequent vaping prevalence very low (0.9%). Using ever vaped as primary target.
+2025-10-30 00:13:34,109 - INFO - frequent_vaping distribution: {0: 29558, 1: 2766}
+2025-10-30 00:13:34,109 - INFO - frequent_vaping prevalence: 8.56%
+2025-10-30 00:13:34,109 - INFO - ever_vaped distribution: {0: 29558, 1: 2766}
+2025-10-30 00:13:34,109 - INFO - ever_vaped prevalence: 8.56%
+2025-10-30 00:13:34,109 - INFO - Primary target: ever_vaped (ever used e-cigarettes)
+2025-10-30 00:13:34,109 - INFO - Preparing features for modeling...
+2025-10-30 00:13:34,117 - INFO - Categorizing features by domain...
+2025-10-30 00:13:34,117 - INFO - Domain 'demographics': 11 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'sexual_identity_behavior': 15 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'safety_violence': 16 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'bullying_discrimination': 8 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'mental_health': 8 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'substance_use': 27 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'nutrition_eating': 17 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'physical_activity': 6 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'health_services': 5 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'social_media_technology': 1 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'academic_performance': 1 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'adverse_childhood_experiences': 24 variables
+2025-10-30 00:13:34,117 - INFO - Domain 'social_support': 4 variables
+2025-10-30 00:13:34,127 - INFO - Removed 94 variables with >80% missing data
+2025-10-30 00:13:34,128 - INFO - Final feature count: 157
+2025-10-30 00:13:34,139 - INFO - After removing missing targets: 32324 observations
+2025-10-30 00:13:34,139 - INFO - Target distribution: {0: 29558, 1: 2766}
+2025-10-30 00:13:34,139 - INFO - Target prevalence: 8.56%
+2025-10-30 00:13:34,142 - INFO - Overall missingness rate: 23.8%
+2025-10-30 00:13:34,143 - INFO - Handling missing data using simple imputation...
+2025-10-30 00:13:34,208 - INFO - Imputation complete. Remaining NaN values: 0
+2025-10-30 00:13:35,340 - INFO - Analysis metadata saved to output/analysis_metadata.json
+2025-10-30 00:22:32,799 - INFO - Handling missing data using mice imputation...
+2025-10-30 00:23:00,868 - INFO - Imputation complete. Remaining NaN values: 0

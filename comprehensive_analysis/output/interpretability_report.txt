@@ -1,0 +1,60 @@
+================================================================================
+COMPREHENSIVE INTERPRETABILITY ANALYSIS REPORT
+================================================================================
+
+Model Type: RandomForestClassifier
+Number of Features: 157
+Test Set Size: 12930
+
+TOP 15 MOST IMPORTANT FEATURES:
+----------------------------------------
+ 1. q32 (substance_use): 0.0839
+ 2. q85 (mental_health): 0.0657
+ 3. q75 (nutrition_eating): 0.0431
+ 4. q11 (safety_violence): 0.0378
+ 5. q10 (safety_violence): 0.0332
+ 6. q83 (health_services): 0.0318
+ 7. q44 (substance_use): 0.0311
+ 8. q49 (substance_use): 0.0286
+ 9. qn83 (other): 0.0280
+10. q26 (mental_health): 0.0280
+11. q31 (substance_use): 0.0270
+12. qn31 (other): 0.0230
+13. qn85 (other): 0.0208
+14. qn49 (other): 0.0203
+15. qn26 (other): 0.0193
+
+IMPORTANCE BY DOMAIN:
+-------------------------
+substance_use: 0.2134
+safety_violence: 0.1209
+mental_health: 0.1000
+nutrition_eating: 0.0777
+health_services: 0.0432
+demographics: 0.0368
+sexual_identity_behavior: 0.0241
+physical_activity: 0.0227
+bullying_discrimination: 0.0143
+academic_performance: 0.0051
+
+TOP 10 SOCIODEMOGRAPHIC INTERACTIONS:
+------------------------------------------
+ 1. stweight × bmi: 0.0000
+ 2. bmi × bmipct: 0.0000
+ 3. race7 × bmi: 0.0000
+ 4. age × bmi: 0.0000
+ 5. grade × bmi: 0.0000
+ 6. sex × bmi: 0.0000
+ 7. stweight × bmipct: 0.0000
+ 8. race4 × bmi: 0.0000
+ 9. stheight × bmi: 0.0000
+10. race7 × stweight: 0.0000
+
+KEY INSIGHTS AND RECOMMENDATIONS:
+-----------------------------------
+1. Focus intervention efforts on top predictive domains
+2. Consider intersectionality effects in program design
+3. Monitor model performance across different subgroups
+4. Validate findings in external datasets
+
+================================================================================
